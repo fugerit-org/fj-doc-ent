@@ -15,3 +15,5 @@ though J2EE infrastructure (for example jsp).
 All basic features are implemented, but it needs refactoring.  
 This was the original pipeline implementation with the use of [DocServlet](src/main/java/org/fugerit/java/doc/ent/servlet/DocServlet.java)  
 Usage of module [fj-doc-freemarker](../fj-doc-freemarker/README.md) is recommended in most scenarios. 
+
+See [CHANGELOG.md](CHANGELOG.md) for details.

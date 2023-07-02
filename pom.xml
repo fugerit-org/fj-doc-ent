@@ -7,13 +7,13 @@
 	<parent>
 		<groupId>org.fugerit.java</groupId>
 		<artifactId>fj-doc</artifactId>
-		<version>0.5-RC2</version>
+		<version>1.1.0-rc.001</version>
 		<relativePath></relativePath>
 	</parent>
 
 	<name>fj-doc-ent</name>
 	<description>Fugerit Doc Venus module adding J2EE functionalities for Servlet/JSP</description>
-	<version>0.4.2-sa</version>
+	<version>0.5.0-rc.001</version>
 
 	<licenses>
 		<license>
@@ -25,7 +25,9 @@
 	
 	<properties>
 		<fj-doc-version>${project.parent.version}</fj-doc-version>	
-		<fj-mod-itext-version>0.4.2-sa</fj-mod-itext-version>		
+		<fj-mod-itext-version>0.5.0-rc.001</fj-mod-itext-version>	
+		<j2ee-api-version>6.0</j2ee-api-version>	
+		<fj-j2ee-version>8.0.3-sa.1</fj-j2ee-version>
 	</properties>	
 	
 	<build>
@@ -37,6 +39,12 @@
 		<dependency>
 			<groupId>org.fugerit.java</groupId>
 			<artifactId>fj-core</artifactId>
+		</dependency>	
+		
+		<dependency>
+			<groupId>org.fugerit.java</groupId>
+			<artifactId>fj-core-j2ee</artifactId>
+			<version>${fj-j2ee-version}</version>
 		</dependency>	
 	
 		<dependency>
@@ -53,6 +61,7 @@
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
+			<version>${j2ee-api-version}</version>
 			<scope>provided</scope>
 		</dependency>	
 	
