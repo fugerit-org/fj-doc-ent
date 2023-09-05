@@ -34,7 +34,7 @@ public class DocRequestFacade extends BasicLogObject {
 		
 		
 		
-		request.setAttribute( "docConsts" , DocConstants.DEF );
+		request.setAttribute( "docConsts" , DocConstants.getInstance() );
 		this.getLogger().info( "out-mode    : "+this.getDocRequestConfig().getOutMode() );
 		String uri = request.getRequestURI();
 		
