@@ -1,4 +1,4 @@
-# Fugerit Document Generation Framework (fj-doc)
+# Fugerit Document Generation Framework (fj-doc) [DEPRECATED]
 
 ## Java EE extension (fj-doc-ent)
 
