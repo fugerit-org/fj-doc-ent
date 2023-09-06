@@ -24,31 +24,6 @@ public class DocServlet extends LogObjectServlet {
 	 */
 	private static final long serialVersionUID = -3048440498921813465L;
 
-	private DocRequestFacade configFacade;
-	
-	/* (non-Javadoc)
-	 * @see org.opinf.jlib.ent.servlet.filter.HttpFilter#destroy()
-	 */
-	public void destroy() {
-		this.configFacade = null;
-	}
-
-
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		this.doGet(req, resp);
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.opinf.jlib.ent.servlet.filter.HttpFilter#doFilter(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, javax.servlet.FilterChain)
-	 */
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		this.getLogger().info( "TESTDOC" );
-		if ( this.configFacade == null ) {
-			this.configFacade = (DocRequestFacade)this.getServletContext().getAttribute( DocServletConfig.ATT_NAME_DOCFACADE );
-		}
-		this.configFacade.handleDoc(request, response);
-	}
-
 	/* (non-Javadoc)
 	 * @see org.opinf.jlib.ent.servlet.filter.HttpFilter#init(javax.servlet.FilterConfig)
 	 */
@@ -64,13 +39,40 @@ public class DocServlet extends LogObjectServlet {
 				File configFile = new File( config.getServletContext().getRealPath( "/" ), configPath );
 				Document doc = DOMIO.loadDOMDoc( configFile );
 				Element root = doc.getDocumentElement();
-				this.configFacade = new DocRequestFacade();
-				this.configFacade.configure( root , new ConfigContext( config.getServletContext() ) );
+				DocRequestFacade configFacade = new DocRequestFacade();
+				configFacade.configure( root , new ConfigContext( config.getServletContext() ) );
+				this.getServletContext().setAttribute( DocServletConfig.ATT_NAME_DOCFACADE , configFacade );
 			} catch (Throwable t) {
 				LogFacade.handleError( t );
 			}			
 		}		
 		this.logInit( "end" );
 	}	
+
+	private void handleFacade( HttpServletRequest request, HttpServletResponse response ) {
+		try {
+			DocRequestFacade facade = (DocRequestFacade)this.getServletContext().getAttribute( DocServletConfig.ATT_NAME_DOCFACADE );
+			facade.handleDoc(request, response);
+			response.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR );
+		} catch ( Exception ex ) {
+			this.getLogger().error( "Error "+ex, ex );
+			try {
+				response.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR );
+			} catch (Exception e ) {
+				this.getLogger().error( "Fatal error, failed to send error 500 "+e, e );
+			}
+		}
+	}
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		this.handleFacade(request, response);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.opinf.jlib.ent.servlet.filter.HttpFilter#doFilter(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, javax.servlet.FilterChain)
+	 */
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		this.handleFacade(request, response);
+	}
 	
 }

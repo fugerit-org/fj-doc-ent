@@ -23,36 +23,28 @@ import org.fugerit.java.doc.base.config.DocException;
 import org.fugerit.java.doc.base.helper.DefaultMimeHelper;
 import org.fugerit.java.doc.base.model.DocBase;
 import org.fugerit.java.doc.ent.servlet.facade.DocRequestConfig;
+import org.owasp.html.HtmlPolicyBuilder;
+import org.owasp.html.PolicyFactory;
 import org.w3c.dom.Element;
 
 public class DocRequestFacade extends BasicLogObject {
 
-	//private static final DocHandler DEF = new DefaultDocHandler();
+	private static final PolicyFactory POLICY = new HtmlPolicyBuilder().toFactory();
 	
 	public void handleDoc( HttpServletRequest request, HttpServletResponse response ) throws ServletException {
 		this.getLogger().info( "start processing "+DocConfig.VERSION );
-		
-		
-		
 		request.setAttribute( "docConsts" , DocConstants.getInstance() );
 		this.getLogger().info( "out-mode    : "+this.getDocRequestConfig().getOutMode() );
 		String uri = request.getRequestURI();
-		
-//		// compress mode
-//		int compressMode = ZipFilter.checkMode( uri );
-////		if ( compressMode != ZipFilter.COMPRESS_MODE_NONE ) {
-////			uri = 
-////		}
-		
 		String render = request.getParameter( "render-type" );
 		String truncate = request.getParameter( "truncate" );
 		this.getLogger().info( "uri : "+uri );
-		this.getLogger().info( "render-type : "+render );
-		this.getLogger().info( "truncate    : "+truncate );
+		this.getLogger().info( "render-type : {}", POLICY.sanitize( render ) );
+		this.getLogger().info( "truncate    : {}", POLICY.sanitize( truncate ) );
 		String data = uri.substring( uri.lastIndexOf( "/" )+1 );
 		String name = data;
 		String fileName = data;
-		this.getLogger().info( "filename 1 : "+fileName );
+		this.getLogger().info( "filename 1 : {}", fileName );
 		String type = render;
 		int index = data.lastIndexOf( "." );
 		if ( render == null ) {
@@ -64,8 +56,7 @@ public class DocRequestFacade extends BasicLogObject {
 		if ( truncate != null ) {
 			name = name.substring( 0, Integer.parseInt( truncate ) );
 		}
-		this.getLogger().info( "name : "+name );
-		this.getLogger().info( "type : "+type );
+		this.getLogger().info( "name : {}, type : {}", name, POLICY.sanitize( type ) );
 		
 		DocHandler docHandler = (DocHandler)this.getDocRequestConfig().getDocHandlerMap().get( name );
 		DocContext docContext = new DocContext( this.getDocRequestConfig() );
