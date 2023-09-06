@@ -27,7 +27,7 @@
 		<fj-doc-version>${project.parent.version}</fj-doc-version>	
 		<fj-mod-itext-version>1.0.0-sa.2</fj-mod-itext-version>	
 		<j2ee-api-version>6.0</j2ee-api-version>	
-		<fj-j2ee-version>8.0.3-sa.1</fj-j2ee-version>
+		<fj-j2ee-version>8.2.6-sa.1</fj-j2ee-version>
 	</properties>	
 	
 	<build>

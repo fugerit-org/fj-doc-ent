@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * [Sonar cloud workflow](.github/workflows/sonarcloud-maven.yml)
 * [Maven build workflow](.github/workflows/build_maven_package.yml)
-* License, sonar cloud quality gate and mave repo version badges
+* License, sonar cloud quality gate and mave repo version badges (#1)
 
 ### Changed
 
@@ -23,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- CHANGELOG.md
+- CHANGELOG.md (#1)
 - fj-core-j2ee dependency
 
 ### Changed
