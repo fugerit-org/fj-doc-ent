@@ -13,7 +13,7 @@
 
 	<name>fj-doc-ent</name>
 	<description>Fugerit Doc Venus module adding J2EE functionalities for Servlet/JSP</description>
-	<version>1.0.1-rc.1</version>
+	<version>1.1.0-sa.1</version>
 
 	<licenses>
 		<license>
